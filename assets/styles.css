@@ -1,0 +1,255 @@
+/* ===============================
+   GLOBAL RESET & VARIABLES
+   =============================== */
+
+:root {
+  --bg: #f5f7fb;
+  --white: #ffffff;
+  --primary: #1d4ed8;
+  --primary-dark: #1e40af;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ===============================
+   NAVBAR
+   =============================== */
+
+.nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ===============================
+   BUTTONS
+   =============================== */
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-outline {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+/* ===============================
+   HERO
+   =============================== */
+
+.hero {
+  padding: 96px 32px;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f5f7fb 100%
+  );
+}
+
+.hero-content {
+  max-width: 960px;
+  margin: auto;
+}
+
+.hero h1 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 720px;
+}
+
+.hero-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+/* ===============================
+   TRUST STRIP
+   =============================== */
+
+.trust-strip {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ===============================
+   AUDIENCE SECTIONS
+   =============================== */
+
+.audience {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  padding: 80px 32px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.audience-card {
+  background: var(--white);
+  padding: 32px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.audience-card h2 {
+  margin-top: 0;
+}
+
+.audience-card ul {
+  padding-left: 18px;
+  margin-top: 16px;
+}
+
+/* ===============================
+   COMPLIANCE
+   =============================== */
+
+.compliance {
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 64px 32px;
+  text-align: center;
+}
+
+.compliance h2 {
+  margin-bottom: 16px;
+}
+
+.compliance p {
+  max-width: 900px;
+  margin: auto;
+  color: #cbd5f5;
+}
+
+/* ===============================
+   FOOTER
+   =============================== */
+
+.footer {
+  background: #020617;
+  color: #cbd5f5;
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* CARD SYSTEM */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  padding: 80px 32px;
+}
+
+.feature-card {
+  background: white;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,.12);
+}
+
+/* FLOW */
+.flow {
+  padding: 80px 32px;
+  text-align: center;
+}
+
+.flow.dark {
+  background: #0f172a;
+  color: white;
+}
+
+.flow-steps {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.step {
+  padding: 14px 20px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* REVEAL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

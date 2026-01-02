@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinAccess – Intelligent Credit Access Platform</title>
+
+  <!-- SEO -->
+  <meta name="description" content="FinAccess is a consent-driven credit intelligence platform connecting borrowers with banks and NBFCs using explainable AI, secure document exchange, and compliant APIs." />
+  <meta name="keywords" content="loan eligibility, fintech platform, nbfc leads, bank lending api, credit intelligence" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="FinAccess – Smarter Credit Access" />
+  <meta property="og:description" content="Explainable eligibility, secure document sharing, and trusted lender connectivity." />
+  <meta property="og:type" content="website" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinTech",
+    "name": "FinAccess",
+    "description": "Consent-first credit intelligence platform for borrowers, banks and NBFCs.",
+    "url": "https://finaccess.ai",
+    "industry": "Financial Technology"
+  }
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* NAV */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 48px;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    nav a {
+      margin-left: 28px;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .btn-outline {
+      padding: 8px 16px;
+      border: 1px solid #2563eb;
+      border-radius: 8px;
+      color: #2563eb;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 110px 24px;
+      text-align: center;
+      background: linear-gradient(180deg,#f8fafc,#eef2ff);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 720px;
+      margin: 0 auto 36px;
+      color: #475569;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin: 0 10px;
+      padding: 14px 26px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-secondary {
+      border: 1px solid #2563eb;
+      color: #2563eb;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 90px 48px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h2 {
+      font-size: 34px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 60px;
+    }
+
+    /* CARDS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+    }
+
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.08);
+      transition: transform .25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    /* DARK */
+    .dark {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .dark .card {
+      background: #1e293b;
+      color: #e5e7eb;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #020617;
+      color: #cbd5f5;
+      padding: 70px 48px 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    footer h4 {
+      margin-bottom: 12px;
+      color: white;
+    }
+
+    footer a {
+      display: block;
+      margin-bottom: 8px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1e293b;
+      padding-top: 18px;
+      font-size: 13px;
+      text-align: center;
+      color: #64748b;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="logo">FinAccess</div>
+  <nav>
+    <a href="#borrowers">Borrowers</a>
+    <a href="#lenders">Lenders</a>
+    <a href="#trust">Trust</a>
+    <a href="./login.html" class="btn-outline">Login</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Smarter Credit Access.<br>Built on Trust.</h1>
+  <p>
+    FinAccess is a credit intelligence platform that helps borrowers understand eligibility
+    and enables banks & NBFCs to acquire qualified demand — securely and compliantly.
+  </p>
+  <div class="cta">
+    <a class="btn-primary">Check Eligibility</a>
+    <a class="btn-secondary">Partner as Lender</a>
+  </div>
+</section>
+
+<section id="borrowers">
+  <h2>Borrower Journey</h2>
+  <p class="subtitle">Transparent decisions. No black boxes.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Apply Once</h3>
+      <p>Submit details securely with full visibility into how your data is used.</p>
+    </div>
+    <div class="card">
+      <h3>Understand Eligibility</h3>
+      <p>See why you qualify or don’t — income, DTI, credit score explained.</p>
+    </div>
+    <div class="card">
+      <h3>Compare Offers</h3>
+      <p>Get matched only with lenders most likely to approve you.</p>
+    </div>
+    <div class="card">
+      <h3>Controlled Sharing</h3>
+      <p>Upload documents once. Share only with your consent.</p>
+    </div>
+  </div>
+</section>
+
+<section id="lenders" class="dark">
+  <h2>Lender Workflow</h2>
+  <p class="subtitle">Qualified demand. Structured data. Zero noise.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Pre-Qualified Leads</h3>
+      <p>Eligibility-screened applications aligned to your credit policy.</p>
+    </div>
+    <div class="card">
+      <h3>Risk Signals First</h3>
+      <p>DTI, bureau score, risk band — before you spend ops effort.</p>
+    </div>
+    <div class="card">
+      <h3>Secure Documents</h3>
+      <p>Consent-based access with full audit trails.</p>
+    </div>
+    <div class="card">
+      <h3>API / Webhooks</h3>
+      <p>Sync approval or rejection directly into your systems.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <h2>Designed for Trust & Scale</h2>
+  <p class="subtitle">Infrastructure you can rely on.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Consent-First Architecture</h3>
+      <p>Users control what is shared, when, and with whom.</p>
+    </div>
+    <div class="card">
+      <h3>Explainable Decisions</h3>
+      <p>Every eligibility outcome is traceable and auditable.</p>
+    </div>
+    <div class="card">
+      <h3>Infrastructure Platform</h3>
+      <p>We enable credit flows — we don’t lend or hold risk.</p>
+    </div>
+    <div class="card">
+      <h3>Enterprise Security</h3>
+      <p>Immutable logs, role-based access, and secure storage.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>FinAccess</h4>
+      <p>Credit intelligence infrastructure for modern finance.</p>
+    </div>
+
+    <div>
+      <h4>Company</h4>
+      <a>About Us</a>
+      <a>Careers</a>
+      <a>Contact</a>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+      <a>Privacy Policy</a>
+      <a>Terms of Use</a>
+      <a>Data Policy</a>
+    </div>
+
+    <div>
+      <h4>Connect</h4>
+      <a>LinkedIn</a>
+      <a>Email</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 FinAccess. Technology platform only.
+  </div>
+</footer>
+
+</body>
+</html>
