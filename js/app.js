@@ -1,7 +1,7 @@
 /* =========================================================
    CONFIG
 ========================================================= */
-const API_BASE = "https://my-finaccess.workers.dev";
+const API_BASE = "https://my-finaccess-production.up.railway.app";
 
 /* =========================================================
    UTILITIES
