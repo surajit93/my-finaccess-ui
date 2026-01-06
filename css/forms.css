@@ -1,0 +1,41 @@
+label {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  display: block;
+  margin-bottom: 6px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+button {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--brand);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--brand-hover);
+}
+
+.status {
+  font-size: 13px;
+  min-height: 16px;
+}
+
+.status.error { color: #dc2626; }
+.status.success { color: #16a34a; }

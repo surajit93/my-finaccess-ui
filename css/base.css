@@ -1,0 +1,37 @@
+/* ===============================
+   BASE — GLOBAL RESET & TOKENS
+=============================== */
+
+:root {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-muted: #f1f5f9;
+
+  --ink-primary: #0f172a;
+  --ink-secondary: #475569;
+  --ink-muted: #94a3b8;
+
+  --brand: #2563eb;
+  --brand-hover: #1e40af;
+
+  --border: #e2e8f0;
+
+  --radius-lg: 14px;
+  --radius-md: 10px;
+
+  --shadow-soft: 0 12px 28px rgba(2,6,23,0.08);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system;
+  background: var(--bg-main);
+  color: var(--ink-primary);
+  line-height: 1.55;
+}

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Consents | FinAccess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--dark:#020617;
+  --ink:#0f172a;--muted:#64748b;--brand:#2563eb;
+  --border:#e2e8f0;--radius:14px;
+  --shadow:0 20px 40px rgba(2,6,23,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--ink)
+}
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{
+  background:var(--dark);color:#e5e7eb;padding:32px
+}
+aside h1{margin:0 0 6px}
+aside p{font-size:13px;color:#cbd5f5}
+nav a{
+  display:block;color:#cbd5f5;text-decoration:none;
+  padding:10px;border-radius:10px
+}
+nav a:hover{background:#1e293b}
+main{padding:48px}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px;
+  max-width:900px
+}
+label{
+  font-size:13px;color:var(--muted);
+  display:block;margin-bottom:6px
+}
+select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin-bottom:14px
+}
+button{
+  background:var(--brand);
+  color:#fff;
+  border:none;
+  padding:12px 16px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer
+}
+.status{font-size:13px;margin-top:8px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:16px;
+  margin-top:24px
+}
+.consent-card{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  background:#f8fafc
+}
+.consent-card h3{
+  margin:0 0 6px;font-size:15px
+}
+.consent-card p{
+  margin:0;font-size:13px;color:var(--muted)
+}
+.note{
+  margin-top:20px;
+  font-size:12px;
+  color:var(--muted)
+}
+@media(max-width:900px){
+  .page{grid-template-columns:1fr}
+  aside{display:none}
+}
+</style>
+</head>
+
+<body onload="init()">
+
+<div class="page">
+
+<aside>
+  <h1>Consents</h1>
+  <p>You control data access</p>
+  <nav>
+    <a href="./dashboard.html">Dashboard</a>
+    <a href="./documents.html">Documents</a>
+    <a href="./profile.html">Profile</a>
+  </nav>
+</aside>
+
+<main>
+<div class="card">
+  <h2>Grant Consent</h2>
+
+  <label>Consent Purpose</label>
+  <select id="purpose">
+    <option value="">Select</option>
+    <option value="document_access">Document Access</option>
+    <option value="credit_check">Credit Assessment</option>
+    <option value="contact_view">Contact Sharing</option>
+  </select>
+
+  <button onclick="grantConsent()">Grant Consent</button>
+
+  <div id="status" class="status"></div>
+
+  <div class="grid">
+    <div class="consent-card">
+      <h3>Document Access</h3>
+      <p>Allows lenders to view uploaded documents you approve.</p>
+    </div>
+    <div class="consent-card">
+      <h3>Credit Assessment</h3>
+      <p>Permits eligibility and risk evaluation using your data.</p>
+    </div>
+    <div class="consent-card">
+      <h3>Contact Sharing</h3>
+      <p>Shares contact details only after explicit unlock.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    All consents are timestamped, audited, and can be revoked automatically
+    if your profile is hidden or deleted (DPDP compliant).
+  </div>
+</div>
+</main>
+
+</div>
+
+<script>
+const API_BASE="https://my-finaccess.workers.dev";
+let APP_CONTEXT={borrowerId:null};
+
+function requireAuth(){
+  const t=localStorage.getItem("auth_token");
+  if(!t){location.href="./login.html"}
+  return t;
+}
+
+async function init(){
+  const token=requireAuth();
+
+  // resolve borrower context (existing backend)
+  const r=await fetch(`${API_BASE}/borrowers/me`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(r.ok){
+    const b=await r.json();
+    APP_CONTEXT.borrowerId=b.id;
+  }
+}
+
+function setStatus(msg,type){
+  status.textContent=msg||"";
+  status.style.color=
+    type==="error"?"#dc2626":
+    type==="success"?"#16a34a":"#0284c7";
+}
+
+async function grantConsent(){
+  const token=requireAuth();
+
+  if(!APP_CONTEXT.borrowerId){
+    setStatus("Borrower profile missing","error");
+    return;
+  }
+  if(!purpose.value){
+    setStatus("Select consent purpose","error");
+    return;
+  }
+
+  setStatus("Granting consent…");
+
+  const r=await fetch(
+    `${API_BASE}/borrowers/${APP_CONTEXT.borrowerId}/consent`,
+    {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:`Bearer ${token}`
+      },
+      body:JSON.stringify({purpose:purpose.value})
+    }
+  );
+
+  if(!r.ok){
+    setStatus("Consent failed","error");
+    return;
+  }
+
+  setStatus("Consent granted","success");
+  purpose.value="";
+}
+</script>
+
+</body>
+</html>

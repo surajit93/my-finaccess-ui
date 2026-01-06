@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NPA Details | FinAccess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--dark:#020617;
+  --ink:#0f172a;--muted:#64748b;--brand:#2563eb;
+  --danger:#dc2626;--border:#e2e8f0;
+  --radius:14px;--shadow:0 20px 40px rgba(2,6,23,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--ink)
+}
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{
+  background:var(--dark);color:#e5e7eb;padding:32px
+}
+aside h1{margin:0 0 6px}
+aside p{font-size:13px;color:#cbd5f5}
+nav a{
+  display:block;color:#cbd5f5;text-decoration:none;
+  padding:10px;border-radius:10px
+}
+nav a:hover{background:#1e293b}
+main{padding:48px}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px;
+  max-width:900px
+}
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:12px
+}
+.field{
+  background:#f1f5f9;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px
+}
+button{
+  background:var(--brand);
+  color:#fff;
+  border:none;
+  padding:12px 16px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer
+}
+button.danger{background:var(--danger)}
+.status{font-size:13px;margin-top:10px}
+@media(max-width:900px){
+  .page{grid-template-columns:1fr}
+  aside{display:none}
+  .row{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body onload="init()">
+
+<div class="page">
+
+<aside>
+  <h1>NPA Item</h1>
+  <p>Masked / Unlocked View</p>
+  <nav>
+    <a href="./dashboard.html">Dashboard</a>
+    <a href="./npa-search.html">Back to Search</a>
+  </nav>
+</aside>
+
+<main>
+<div class="card">
+  <h2>NPA Details</h2>
+
+  <div id="details"></div>
+
+  <br>
+
+  <button id="unlockBtn" onclick="unlockContact()">
+    Unlock Contact (1 Credit)
+  </button>
+
+  <div id="status" class="status"></div>
+</div>
+</main>
+
+</div>
+
+<script>
+const API_BASE="https://my-finaccess.workers.dev";
+let NPA_ID=null;
+
+function requireAuth(){
+  const t=localStorage.getItem("auth_token");
+  if(!t){location.href="./login.html"}
+  return t;
+}
+
+async function init(){
+  requireAuth();
+  const p=new URLSearchParams(location.search);
+  NPA_ID=p.get("id");
+  if(!NPA_ID){return}
+  await loadDetails();
+}
+
+async function loadDetails(){
+  const token=requireAuth();
+  status.textContent="Loading…";
+  const r=await fetch(`${API_BASE}/npa/${NPA_ID}`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(!r.ok){
+    status.textContent="Unable to load NPA";
+    return;
+  }
+  const d=await r.json();
+  render(d);
+  status.textContent="";
+}
+
+function field(label,value){
+  return `<div class="field"><strong>${label}:</strong><br>${value ?? "—"}</div>`;
+}
+
+function render(d){
+  let html=`
+    <div class="row">
+      ${field("Product Type",d.product_type)}
+      ${field("DPD Days",d.dpd_days)}
+    </div>
+    <div class="row">
+      ${field("Outstanding",`₹${d.total_outstanding}`)}
+      ${field("Legal Stage",d.legal_stage)}
+    </div>
+  `;
+
+  // Mask-aware fields (backend already enforces)
+  if(d.full_name){
+    html+=`
+      <div class="row">
+        ${field("Borrower Name",d.full_name)}
+        ${field("Gender",d.gender)}
+      </div>
+    `;
+  }
+  if(d.address_line){
+    html+=`
+      <div class="row">
+        ${field("City",d.city)}
+        ${field("State",d.state)}
+      </div>
+    `;
+  }
+  if(d.contact_value){
+    html+=`
+      <div class="row">
+        ${field("Contact",d.contact_value)}
+      </div>
+    `;
+    unlockBtn.style.display="none";
+  }
+
+  details.innerHTML=html;
+}
+
+async function unlockContact(){
+  const token=requireAuth();
+  status.textContent="Unlocking…";
+
+  const r=await fetch(`${API_BASE}/npa/${NPA_ID}/unlock`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({
+      scope:"contact",
+      price:1,
+      orgId:"APP_CONTEXT.orgId"
+    })
+  });
+
+  if(!r.ok){
+    status.textContent="Unlock failed";
+    return;
+  }
+  status.textContent="Unlocked";
+  await loadDetails();
+}
+</script>
+
+</body>
+</html>

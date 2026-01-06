@@ -1,0 +1,683 @@
+/* =========================================================
+   FINACCESS — MASTER APPLICATION STYLESHEET
+   Single-file, enterprise-grade, fenced by intent
+========================================================= */
+
+
+/* =========================================================
+   GLOBAL DESIGN TOKENS (SYSTEM-WIDE)
+========================================================= */
+
+:root {
+
+  /* --- Backgrounds --- */
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-panel-dark: #020617;
+  --bg-panel-muted: #0f172a;
+
+  /* --- Ink / Text --- */
+  --ink-primary: #0f172a;
+  --ink-secondary: #475569;
+  --ink-muted: #94a3b8;
+  --ink-inverse: #e5e7eb;
+
+  /* --- Brand --- */
+  --brand-accent: #2563eb;
+  --brand-accent-hover: #1e40af;
+
+  /* --- Semantic --- */
+  --state-success: #16a34a;
+  --state-danger: #dc2626;
+  --state-warning: #f59e0b;
+  --state-info: #0284c7;
+
+  /* --- Borders & Radius --- */
+  --border-soft: #e2e8f0;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+
+  /* --- Shadows (used sparingly) --- */
+  --shadow-soft: 0 20px 40px rgba(2,6,23,0.08);
+  --shadow-tight: 0 6px 14px rgba(2,6,23,0.08);
+
+  /* --- Spacing Scale --- */
+  --space-xs: 6px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+
+  /* --- Motion --- */
+  --motion-fast: 120ms;
+  --motion-normal: 150ms;
+}
+
+
+/* =========================================================
+   RESET & BASE
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+  background: var(--bg-main);
+  color: var(--ink-primary);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================================
+   =========================================================
+   APPLICATION UI (SECURE / OPERATIONAL)
+   Applies ONLY to /pages/*.html
+   =========================================================
+========================================================= */
+
+
+/* =========================================================
+   APP LAYOUT
+========================================================= */
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+
+.app-brand-panel,
+.brand-panel {
+  background: var(--bg-panel-dark);
+  color: var(--ink-inverse);
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app-content-panel,
+.content-panel {
+  background: var(--bg-card);
+  padding: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* =========================================================
+   APP TYPOGRAPHY (INSTITUTIONAL)
+========================================================= */
+
+.page h1 {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+  margin-bottom: var(--space-sm);
+}
+
+.page h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.page h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.page p {
+  color: var(--ink-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.text-meta {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.text-audit {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-family: ui-monospace, SFMono-Regular;
+}
+
+
+/* =========================================================
+   CARD SYSTEM
+========================================================= */
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-lg);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.card--info {
+  border-left: 4px solid var(--state-info);
+}
+
+.card--warning {
+  border-left: 4px solid var(--state-warning);
+}
+
+.card--locked {
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+label {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  margin-bottom: var(--space-md);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+input:disabled {
+  background: #f1f5f9;
+  color: var(--ink-muted);
+}
+
+
+/* =========================================================
+   BUTTON SYSTEM (RISK-AWARE)
+========================================================= */
+
+button {
+  transition: transform var(--motion-fast),
+              box-shadow var(--motion-fast),
+              background var(--motion-fast);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--brand-accent);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--brand-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-tight);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-danger {
+  background: var(--state-danger);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--ink-primary);
+}
+
+
+/* =========================================================
+   STATUS / SYSTEM FEEDBACK
+========================================================= */
+
+.status {
+  font-size: 13px;
+  min-height: 18px;
+  margin-top: var(--space-sm);
+  transition: opacity var(--motion-fast);
+}
+
+.status.success { color: var(--state-success); }
+.status.error   { color: var(--state-danger); }
+.status.info    { color: var(--state-info); }
+
+.status:empty {
+  opacity: 0;
+}
+
+
+/* =========================================================
+   FOOTERS & META
+========================================================= */
+
+.footer-note {
+  margin-top: var(--space-xl);
+  font-size: 12px;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE — APPLICATION
+========================================================= */
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .brand-panel {
+    display: none;
+  }
+  .content-panel {
+    padding: 40px 24px;
+  }
+}
+
+
+/* =========================================================
+   =========================================================
+   MARKETING UI (PUBLIC / LANDING PAGE)
+   Applies ONLY to index.html
+   =========================================================
+========================================================= */
+
+
+/* =========================================================
+   LANDING NAV
+========================================================= */
+
+.lp-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 48px;
+  border-bottom: 1px solid var(--border-soft);
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.lp-logo {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.lp-nav a {
+  margin-left: 28px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  text-decoration: none;
+}
+
+.lp-btn-outline {
+  padding: 8px 16px;
+  border: 1px solid var(--brand-accent);
+  border-radius: 8px;
+  color: var(--brand-accent);
+}
+
+
+/* =========================================================
+   LANDING HERO
+========================================================= */
+
+.lp-hero {
+  padding: 110px 24px;
+  text-align: center;
+  background: linear-gradient(180deg,#f8fafc,#eef2ff);
+}
+
+.lp-hero h1 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.lp-hero p {
+  font-size: 18px;
+  max-width: 720px;
+  margin: 0 auto 36px;
+  color: var(--ink-secondary);
+}
+
+
+/* =========================================================
+   LANDING CTA
+========================================================= */
+
+.lp-cta a {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 14px 26px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.lp-btn-primary {
+  background: var(--brand-accent);
+  color: white;
+}
+
+.lp-btn-secondary {
+  border: 1px solid var(--brand-accent);
+  color: var(--brand-accent);
+}
+
+
+/* =========================================================
+   LANDING SECTIONS
+========================================================= */
+
+.lp-section {
+  padding: 90px 48px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.lp-section h2 {
+  font-size: 34px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.lp-subtitle {
+  text-align: center;
+  color: var(--ink-muted);
+  margin-bottom: 60px;
+}
+
+.lp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+.lp-card {
+  background: white;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+}
+
+
+/* =========================================================
+   LANDING DARK SECTIONS
+========================================================= */
+
+.lp-dark {
+  background: var(--bg-panel-muted);
+  color: var(--ink-inverse);
+}
+
+.lp-dark .lp-card {
+  background: #1e293b;
+}
+
+
+/* =========================================================
+   LANDING FOOTER
+========================================================= */
+
+.lp-footer {
+  background: var(--bg-panel-dark);
+  color: #cbd5f5;
+  padding: 70px 48px 30px;
+}
+
+.lp-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.lp-footer h4 {
+  color: white;
+}
+
+.lp-footer a {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.lp-footer-bottom {
+  border-top: 1px solid #1e293b;
+  padding-top: 18px;
+  font-size: 13px;
+  text-align: center;
+  color: #64748b;
+}
+/* =========================================================
+   MARKETING ONLY — SCROLL & MOTION SYSTEM
+   Applies ONLY to index.html (lp-* namespace)
+========================================================= */
+
+/* ---------- SECTION VISIBILITY CONTROL ---------- */
+
+.lp-section {
+  opacity: 0;
+  transform: translateY(80px);
+  transition:
+    opacity 800ms ease,
+    transform 800ms ease;
+  will-change: transform, opacity;
+}
+
+.lp-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ---------- CARD BASE STATE ---------- */
+
+.lp-card {
+  transform: translateY(40px) scale(0.96);
+  opacity: 0;
+  transition:
+    transform 500ms ease,
+    opacity 500ms ease,
+    box-shadow 300ms ease;
+  will-change: transform;
+}
+
+
+/* ---------- CARD ENTER ANIMATION ---------- */
+
+.lp-section.is-visible .lp-card {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.lp-section.is-visible .lp-card:nth-child(1) { transition-delay: 80ms; }
+.lp-section.is-visible .lp-card:nth-child(2) { transition-delay: 160ms; }
+.lp-section.is-visible .lp-card:nth-child(3) { transition-delay: 240ms; }
+.lp-section.is-visible .lp-card:nth-child(4) { transition-delay: 320ms; }
+
+
+/* ---------- HOVER: ZOOM + FORWARD ---------- */
+
+.lp-grid {
+  perspective: 1200px;
+}
+
+.lp-card {
+  background: white;
+  transform-style: preserve-3d;
+}
+
+.lp-card:hover {
+  transform: translateY(-14px) scale(1.06);
+  box-shadow: 0 40px 80px rgba(2,6,23,0.22);
+  z-index: 3;
+}
+
+
+/* ---------- NEIGHBOUR DE-EMPHASIS ---------- */
+
+.lp-grid:hover .lp-card:not(:hover) {
+  transform: scale(0.96);
+  opacity: 0.6;
+}
+
+
+/* ---------- DARK SECTION TUNING ---------- */
+
+.lp-dark .lp-card {
+  background: #1e293b;
+}
+
+.lp-dark .lp-card:hover {
+  box-shadow: 0 50px 90px rgba(0,0,0,0.6);
+}
+
+
+/* ---------- HERO ENTRY (STRONGER) ---------- */
+
+.lp-hero h1,
+.lp-hero p,
+.lp-cta {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: lp-hero-in 900ms cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+.lp-hero p { animation-delay: 140ms; }
+.lp-cta { animation-delay: 280ms; }
+
+@keyframes lp-hero-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* =========================================================
+   LANDING – SCROLL RHYTHM / CHAPTER FEEL
+========================================================= */
+.lp .lp-section {
+  min-height: 100vh;
+  padding: 140px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+}
+
+.lp .lp-section + .lp-section {
+  margin-top: 120px; /* silence between chapters */
+}
+/* =========================================================
+   LANDING – HERO CARD DOMINANCE
+========================================================= */
+.lp .lp-card--hero {
+  transform: scale(1.03);
+  z-index: 2;
+}
+
+.lp .lp-card {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition:
+    transform 0.6s cubic-bezier(.2,.8,.2,1),
+    opacity 0.6s ease;
+}
+
+.lp .lp-card.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.lp .lp-card--hero.is-visible {
+  transition-delay: 0.1s;
+}
+
+.lp .lp-card:not(.lp-card--hero).is-visible {
+  transition-delay: 0.25s;
+}
+.lp #borrowers .lp-card:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+.lp #lenders .lp-card:hover {
+  transform: translateY(-14px) scale(1.06);
+  box-shadow: 0 30px 60px rgba(2,6,23,0.25);
+}
+
+.lp #lenders .lp-card:hover {
+  transform: translateY(-14px) scale(1.06);
+  box-shadow: 0 30px 60px rgba(2,6,23,0.25);
+}
+
+.lp[data-scroll="down"] .lp-card.is-visible {
+  transform: translateY(0);
+}
+
+.lp[data-scroll="up"] .lp-card.is-visible {
+  transition-duration: 0.8s; /* heavier review feel */
+}
+/* =========================================================
+   LANDING – INTENT FREEZE
+========================================================= */
+.lp .lp-cta:hover ~ * {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.lp.intent-freeze .lp-card {
+  animation-play-state: paused;
+  opacity: 0.5;
+}
+.lp.lp-calm * {
+  animation: none !important;
+  transition: none !important;
+}
+.lp-card[data-weight="heavy"] {
+  box-shadow: 0 40px 80px rgba(2,6,23,0.3);
+}
+
+.lp-card[data-weight="light"] {
+  box-shadow: 0 12px 28px rgba(2,6,23,0.12);
+}
+/* =========================================================
+   LANDING – SILENCE ZONES
+========================================================= */
+.lp .lp-silence {
+  height: 180px;
+}

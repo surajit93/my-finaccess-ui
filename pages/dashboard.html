@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Dashboard | FinAccess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root {
+  --bg-main:#f8fafc;
+  --bg-card:#ffffff;
+  --bg-dark:#020617;
+
+  --ink-primary:#0f172a;
+  --ink-secondary:#475569;
+  --ink-muted:#94a3b8;
+  --ink-inverse:#e5e7eb;
+
+  --brand:#2563eb;
+  --brand-hover:#1e40af;
+
+  --border:#e2e8f0;
+  --radius-lg:16px;
+  --radius-md:10px;
+
+  --shadow-soft:0 20px 40px rgba(2,6,23,.08);
+}
+
+* { box-sizing:border-box; }
+
+html,body {
+  margin:0;
+  padding:0;
+  height:100%;
+  font-family:Inter,system-ui,-apple-system;
+  background:var(--bg-main);
+  color:var(--ink-primary);
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.page {
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:260px 1fr;
+}
+
+.sidebar {
+  background:var(--bg-dark);
+  color:var(--ink-inverse);
+  padding:32px 24px;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar h1 {
+  font-size:22px;
+  margin-bottom:6px;
+}
+
+.sidebar p {
+  font-size:13px;
+  color:#cbd5f5;
+  margin-bottom:32px;
+}
+
+.nav a {
+  display:block;
+  padding:12px 14px;
+  border-radius:10px;
+  color:#cbd5f5;
+  text-decoration:none;
+  font-size:14px;
+  margin-bottom:6px;
+}
+
+.nav a:hover {
+  background:#1e293b;
+}
+
+.nav a.primary {
+  background:var(--brand);
+  color:white;
+}
+
+.content {
+  padding:56px;
+}
+
+.card {
+  background:var(--bg-card);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft);
+  padding:32px;
+  max-width:900px;
+}
+
+h2 {
+  margin-top:0;
+  margin-bottom:8px;
+}
+
+p {
+  color:var(--ink-secondary);
+  margin-bottom:24px;
+}
+
+/* =========================
+   ACTION GRID
+========================= */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.action {
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+
+.action:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 24px rgba(2,6,23,.12);
+}
+
+.action h3 {
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.action p {
+  margin:0;
+  font-size:13px;
+  color:var(--ink-muted);
+}
+
+.footer-note {
+  margin-top:28px;
+  font-size:12px;
+  color:var(--ink-muted);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:900px){
+  .page { grid-template-columns:1fr; }
+  .sidebar { display:none; }
+  .content { padding:32px 20px; }
+}
+</style>
+</head>
+
+<body onload="requireAuth()">
+
+<div class="page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h1>FinAccess</h1>
+    <p>Credit Intelligence Workspace</p>
+
+    <nav class="nav">
+      <a class="primary" href="./dashboard.html">Dashboard</a>
+      <a href="./npa-search.html">NPA Marketplace</a>
+      <a href="./profile.html">Borrower Profile</a>
+      <a href="./documents.html">Documents</a>
+      <a href="./consents.html">Consents</a>
+      <a href="./subscription.html">Credits</a>
+      <a href="./admin-dashboard.html">Admin</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="card">
+      <h2>Dashboard</h2>
+      <p>Select an action to continue.</p>
+
+      <div class="grid">
+
+        <div class="action" onclick="go('./npa-search.html')">
+          <h3>NPA Marketplace</h3>
+          <p>Search & unlock verified NPA intelligence</p>
+        </div>
+
+        <div class="action" onclick="go('./profile.html')">
+          <h3>Borrower Profile</h3>
+          <p>Manage personal data & DPDP controls</p>
+        </div>
+
+        <div class="action" onclick="go('./documents.html')">
+          <h3>Documents</h3>
+          <p>Upload & manage consented documents</p>
+        </div>
+
+        <div class="action" onclick="go('./consents.html')">
+          <h3>Consents</h3>
+          <p>Grant or revoke access permissions</p>
+        </div>
+
+        <div class="action" onclick="go('./subscription.html')">
+          <h3>Credits</h3>
+          <p>Purchase & monitor credit usage</p>
+        </div>
+
+        <div class="action" onclick="go('./admin-dashboard.html')">
+          <h3>Admin</h3>
+          <p>Organisation & compliance controls</p>
+        </div>
+
+      </div>
+
+      <div class="footer-note">
+        All actions are logged, audited, and consent-governed.
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+function requireAuth(){
+  const token = localStorage.getItem("auth_token");
+  if(!token){
+    window.location.href = "./login.html";
+  }
+}
+
+function logout(){
+  localStorage.removeItem("auth_token");
+  window.location.href = "./login.html";
+}
+
+function go(path){
+  window.location.href = path;
+}
+</script>
+
+</body>
+</html>
