@@ -1,0 +1,3 @@
+[submodule "open-university-video-main/open-university-video/open-university-mcq"]
+	path = open-university-video-main/open-university-video/open-university-mcq
+	url = https://github.com/surajit93/open-university-mcq.git
