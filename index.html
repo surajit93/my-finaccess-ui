@@ -1,330 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>FinAccess – Intelligent Credit Access Platform</title>
+<meta charset="UTF-8" />
+<title>FinAccess – Consent-Driven Credit Intelligence</title>
 
-  <!-- SEO -->
-  <meta name="description" content="FinAccess is a consent-driven credit intelligence platform connecting borrowers with banks and NBFCs using explainable AI, secure document exchange, and compliant APIs." />
-  <meta name="keywords" content="loan eligibility, fintech platform, nbfc leads, bank lending api, credit intelligence" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Consent-first credit intelligence platform for borrowers, banks and NBFCs." />
 
-  <!-- OpenGraph -->
-  <meta property="og:title" content="FinAccess – Smarter Credit Access" />
-  <meta property="og:description" content="Explainable eligibility, secure document sharing, and trusted lender connectivity." />
-  <meta property="og:type" content="website" />
+<!-- =========================
+     INLINE SYSTEM STYLES
+========================= -->
+<style>
+:root {
+  --bg-main:#f8fafc;
+  --bg-card:#ffffff;
+  --bg-dark:#020617;
+  --bg-muted:#0f172a;
 
-  <!-- Schema.org -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FinTech",
-    "name": "FinAccess",
-    "description": "Consent-first credit intelligence platform for borrowers, banks and NBFCs.",
-    "url": "https://finaccess.ai",
-    "industry": "Financial Technology"
-  }
-  </script>
+  --ink-primary:#0f172a;
+  --ink-secondary:#475569;
+  --ink-muted:#94a3b8;
+  --ink-inverse:#e5e7eb;
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
-      color: #0f172a;
-      background: #ffffff;
-      line-height: 1.6;
-    }
+  --brand:#2563eb;
+  --brand-hover:#1e40af;
 
-    a { text-decoration: none; color: inherit; }
+  --border:#e2e8f0;
+  --radius-lg:16px;
+  --radius-md:10px;
 
-    /* NAV */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 22px 48px;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      background: white;
-      z-index: 10;
-    }
+  --shadow-soft:0 20px 40px rgba(2,6,23,.08);
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: .3px;
-    }
+* { box-sizing:border-box; }
 
-    nav a {
-      margin-left: 28px;
-      font-weight: 500;
-      color: #334155;
-    }
+html,body {
+  margin:0;
+  padding:0;
+  font-family:Inter,system-ui,-apple-system;
+  background:var(--bg-main);
+  color:var(--ink-primary);
+}
 
-    .btn-outline {
-      padding: 8px 16px;
-      border: 1px solid #2563eb;
-      border-radius: 8px;
-      color: #2563eb;
-    }
+/* =========================
+   NAVBAR
+========================= */
+.lp-navbar {
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 48px;
+  background:white;
+  border-bottom:1px solid var(--border);
+}
 
-    /* HERO */
-    .hero {
-      padding: 110px 24px;
-      text-align: center;
-      background: linear-gradient(180deg,#f8fafc,#eef2ff);
-    }
+.lp-logo {
+  font-size:22px;
+  font-weight:800;
+}
 
-    .hero h1 {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
+.lp-nav a {
+  margin-left:28px;
+  text-decoration:none;
+  color:var(--ink-secondary);
+  font-weight:500;
+}
 
-    .hero p {
-      font-size: 18px;
-      max-width: 720px;
-      margin: 0 auto 36px;
-      color: #475569;
-    }
+.lp-btn-outline {
+  padding:8px 16px;
+  border:1px solid var(--brand);
+  border-radius:8px;
+  color:var(--brand);
+}
 
-    .cta a {
-      display: inline-block;
-      margin: 0 10px;
-      padding: 14px 26px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
+/* =========================
+   HERO
+========================= */
+.lp-hero {
+  padding:120px 24px;
+  text-align:center;
+  background:linear-gradient(180deg,#f8fafc,#eef2ff);
+}
 
-    .btn-primary {
-      background: #2563eb;
-      color: white;
-    }
+.lp-hero h1 {
+  font-size:48px;
+  font-weight:800;
+  margin-bottom:16px;
+}
 
-    .btn-secondary {
-      border: 1px solid #2563eb;
-      color: #2563eb;
-    }
+.lp-hero p {
+  max-width:720px;
+  margin:0 auto 36px;
+  font-size:18px;
+  color:var(--ink-secondary);
+}
 
-    /* SECTIONS */
-    section {
-      padding: 90px 48px;
-      max-width: 1200px;
-      margin: auto;
-    }
+.lp-cta a {
+  display:inline-block;
+  margin:0 10px;
+  padding:14px 26px;
+  border-radius:10px;
+  font-weight:600;
+  text-decoration:none;
+}
 
-    h2 {
-      font-size: 34px;
-      margin-bottom: 12px;
-      text-align: center;
-    }
+.lp-btn-primary {
+  background:var(--brand);
+  color:white;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #64748b;
-      margin-bottom: 60px;
-    }
+.lp-btn-secondary {
+  border:1px solid var(--brand);
+  color:var(--brand);
+}
 
-    /* CARDS */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 32px;
-    }
+/* =========================
+   SECTIONS
+========================= */
+.lp-section {
+  max-width:1200px;
+  margin:auto;
+  padding:120px 48px;
+  opacity:0;
+  transform:translateY(80px);
+  transition:all .8s ease;
+}
 
-    .card {
-      background: white;
-      padding: 28px;
-      border-radius: 18px;
-      box-shadow: 0 20px 40px rgba(0,0,0,.08);
-      transition: transform .25s ease;
-    }
+.lp-section.is-visible {
+  opacity:1;
+  transform:none;
+}
 
-    .card:hover {
-      transform: translateY(-6px);
-    }
+.lp-section h2 {
+  text-align:center;
+  font-size:34px;
+  margin-bottom:12px;
+}
 
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+.lp-subtitle {
+  text-align:center;
+  color:var(--ink-muted);
+  margin-bottom:60px;
+}
 
-    /* DARK */
-    .dark {
-      background: #0f172a;
-      color: #e5e7eb;
-    }
+.lp-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:32px;
+}
 
-    .dark .card {
-      background: #1e293b;
-      color: #e5e7eb;
-    }
+.lp-card {
+  background:white;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:var(--shadow-soft);
+  transition:.4s ease;
+}
 
-    /* FOOTER */
-    footer {
-      background: #020617;
-      color: #cbd5f5;
-      padding: 70px 48px 30px;
-    }
+.lp-card:hover {
+  transform:translateY(-10px) scale(1.04);
+}
 
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 32px;
-      margin-bottom: 40px;
-    }
+/* =========================
+   DARK SECTION
+========================= */
+.lp-dark {
+  background:var(--bg-muted);
+  color:var(--ink-inverse);
+}
 
-    footer h4 {
-      margin-bottom: 12px;
-      color: white;
-    }
+.lp-dark .lp-card {
+  background:#1e293b;
+}
 
-    footer a {
-      display: block;
-      margin-bottom: 8px;
-      color: #94a3b8;
-      font-size: 14px;
-    }
+/* =========================
+   FOOTER
+========================= */
+.lp-footer {
+  background:var(--bg-dark);
+  color:#cbd5f5;
+  padding:80px 48px 30px;
+}
 
-    .footer-bottom {
-      border-top: 1px solid #1e293b;
-      padding-top: 18px;
-      font-size: 13px;
-      text-align: center;
-      color: #64748b;
-    }
-  </style>
+.lp-footer-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:32px;
+  margin-bottom:40px;
+}
+
+.lp-footer h4 { color:white; }
+
+.lp-footer a {
+  display:block;
+  color:#94a3b8;
+  margin-bottom:8px;
+  font-size:14px;
+}
+
+.lp-footer-bottom {
+  text-align:center;
+  font-size:13px;
+  color:#64748b;
+  border-top:1px solid #1e293b;
+  padding-top:18px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width:900px){
+  .lp-navbar { padding:18px 24px; }
+  .lp-section { padding:80px 24px; }
+}
+</style>
 </head>
 
 <body>
 
-<header class="navbar">
-  <div class="logo">FinAccess</div>
-  <nav>
+<header class="lp-navbar">
+  <div class="lp-logo">FinAccess</div>
+  <nav class="lp-nav">
     <a href="#borrowers">Borrowers</a>
     <a href="#lenders">Lenders</a>
     <a href="#trust">Trust</a>
-    <a href="./login.html" class="btn-outline">Login</a>
+    <a href="./pages/login.html" class="lp-btn-outline">Login</a>
   </nav>
 </header>
 
-<section class="hero">
-  <h1>Smarter Credit Access.<br>Built on Trust.</h1>
+<section class="lp-hero">
+  <h1>Smarter Credit Access.<br/>Built on Trust.</h1>
   <p>
-    FinAccess is a credit intelligence platform that helps borrowers understand eligibility
-    and enables banks & NBFCs to acquire qualified demand — securely and compliantly.
+    Consent-first credit intelligence helping borrowers understand eligibility
+    and enabling banks & NBFCs to acquire qualified demand — transparently.
   </p>
-  <div class="cta">
-    <a class="btn-primary">Check Eligibility</a>
-    <a class="btn-secondary">Partner as Lender</a>
+
+  <div class="lp-cta">
+    <a href="./pages/login.html" class="lp-btn-primary">Check Eligibility</a>
+    <a href="./pages/login.html" class="lp-btn-secondary">Partner as Lender</a>
   </div>
 </section>
 
-<section id="borrowers">
+<section id="borrowers" class="lp-section">
   <h2>Borrower Journey</h2>
-  <p class="subtitle">Transparent decisions. No black boxes.</p>
+  <p class="lp-subtitle">No black boxes. Full visibility.</p>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Apply Once</h3>
-      <p>Submit details securely with full visibility into how your data is used.</p>
-    </div>
-    <div class="card">
-      <h3>Understand Eligibility</h3>
-      <p>See why you qualify or don’t — income, DTI, credit score explained.</p>
-    </div>
-    <div class="card">
-      <h3>Compare Offers</h3>
-      <p>Get matched only with lenders most likely to approve you.</p>
-    </div>
-    <div class="card">
-      <h3>Controlled Sharing</h3>
-      <p>Upload documents once. Share only with your consent.</p>
-    </div>
+  <div class="lp-grid">
+    <div class="lp-card"><h3>Apply Once</h3><p>Single secure application.</p></div>
+    <div class="lp-card"><h3>Eligibility Explained</h3><p>No hidden logic.</p></div>
+    <div class="lp-card"><h3>Compare Offers</h3><p>Only relevant lenders.</p></div>
+    <div class="lp-card"><h3>Consent Control</h3><p>You decide access.</p></div>
   </div>
 </section>
 
-<section id="lenders" class="dark">
+<section id="lenders" class="lp-section lp-dark">
   <h2>Lender Workflow</h2>
-  <p class="subtitle">Qualified demand. Structured data. Zero noise.</p>
+  <p class="lp-subtitle">Qualified demand. Structured data.</p>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Pre-Qualified Leads</h3>
-      <p>Eligibility-screened applications aligned to your credit policy.</p>
-    </div>
-    <div class="card">
-      <h3>Risk Signals First</h3>
-      <p>DTI, bureau score, risk band — before you spend ops effort.</p>
-    </div>
-    <div class="card">
-      <h3>Secure Documents</h3>
-      <p>Consent-based access with full audit trails.</p>
-    </div>
-    <div class="card">
-      <h3>API / Webhooks</h3>
-      <p>Sync approval or rejection directly into your systems.</p>
-    </div>
+  <div class="lp-grid">
+    <div class="lp-card"><h3>Pre-Qualified Leads</h3></div>
+    <div class="lp-card"><h3>Risk First</h3></div>
+    <div class="lp-card"><h3>Audited Access</h3></div>
+    <div class="lp-card"><h3>API / Webhooks</h3></div>
   </div>
 </section>
 
-<section id="trust">
-  <h2>Designed for Trust & Scale</h2>
-  <p class="subtitle">Infrastructure you can rely on.</p>
+<section id="trust" class="lp-section">
+  <h2>Designed for Trust</h2>
+  <p class="lp-subtitle">Built for regulation and scale.</p>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Consent-First Architecture</h3>
-      <p>Users control what is shared, when, and with whom.</p>
-    </div>
-    <div class="card">
-      <h3>Explainable Decisions</h3>
-      <p>Every eligibility outcome is traceable and auditable.</p>
-    </div>
-    <div class="card">
-      <h3>Infrastructure Platform</h3>
-      <p>We enable credit flows — we don’t lend or hold risk.</p>
-    </div>
-    <div class="card">
-      <h3>Enterprise Security</h3>
-      <p>Immutable logs, role-based access, and secure storage.</p>
-    </div>
+  <div class="lp-grid">
+    <div class="lp-card"><h3>Consent-First</h3></div>
+    <div class="lp-card"><h3>Explainable</h3></div>
+    <div class="lp-card"><h3>Platform Only</h3></div>
+    <div class="lp-card"><h3>Enterprise Security</h3></div>
   </div>
 </section>
 
-<footer>
-  <div class="footer-grid">
-    <div>
-      <h4>FinAccess</h4>
-      <p>Credit intelligence infrastructure for modern finance.</p>
-    </div>
-
-    <div>
-      <h4>Company</h4>
-      <a>About Us</a>
-      <a>Careers</a>
-      <a>Contact</a>
-    </div>
-
-    <div>
-      <h4>Legal</h4>
-      <a>Privacy Policy</a>
-      <a>Terms of Use</a>
-      <a>Data Policy</a>
-    </div>
-
-    <div>
-      <h4>Connect</h4>
-      <a>LinkedIn</a>
-      <a>Email</a>
-    </div>
+<footer class="lp-footer">
+  <div class="lp-footer-grid">
+    <div><h4>FinAccess</h4><p>Credit intelligence infrastructure.</p></div>
+    <div><h4>Company</h4><a>About</a><a>Contact</a></div>
+    <div><h4>Legal</h4><a>Privacy</a><a>Terms</a></div>
   </div>
-
-  <div class="footer-bottom">
-    © 2026 FinAccess. Technology platform only.
-  </div>
+  <div class="lp-footer-bottom">© 2026 FinAccess</div>
 </footer>
+
+<!-- =========================
+     INLINE JS
+========================= -->
+<script>
+const sections = document.querySelectorAll(".lp-section");
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("is-visible");
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.25});
+sections.forEach(s=>io.observe(s));
+</script>
 
 </body>
 </html>

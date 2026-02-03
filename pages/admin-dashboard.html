@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Admin Dashboard | FinAccess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--dark:#020617;
+  --ink:#0f172a;--muted:#64748b;--brand:#2563eb;
+  --border:#e2e8f0;--radius:14px;
+  --shadow:0 20px 40px rgba(2,6,23,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--ink)
+}
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{
+  background:var(--dark);color:#e5e7eb;padding:32px
+}
+aside h1{margin:0 0 6px}
+aside p{font-size:13px;color:#cbd5f5}
+nav a{
+  display:block;color:#cbd5f5;text-decoration:none;
+  padding:10px;border-radius:10px
+}
+nav a:hover{background:#1e293b}
+main{padding:48px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px
+}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px
+}
+h2,h3{margin-top:0}
+.metric{
+  font-size:34px;
+  font-weight:700
+}
+.muted{color:var(--muted);font-size:13px}
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600
+}
+.badge.ok{background:#dcfce7;color:#166534}
+.badge.warn{background:#fee2e2;color:#991b1b}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid var(--border);
+  text-align:left
+}
+canvas{width:100%;height:160px}
+@media(max-width:900px){
+  .page{grid-template-columns:1fr}
+  aside{display:none}
+}
+</style>
+</head>
+
+<body onload="init()">
+
+<div class="page">
+
+<aside>
+  <h1>Admin</h1>
+  <p>Organisation control</p>
+  <nav>
+    <a href="./dashboard.html">Dashboard</a>
+    <a href="./npa-search.html">NPA</a>
+    <a href="./subscription.html">Credits</a>
+  </nav>
+</aside>
+
+<main>
+
+<div class="grid">
+
+  <div class="card">
+    <h3>Organisation</h3>
+    <div id="orgName" class="metric">—</div>
+    <div id="orgStatus" class="badge warn">Unverified</div>
+  </div>
+
+  <div class="card">
+    <h3>Credit Balance</h3>
+    <div id="credits" class="metric">—</div>
+    <div class="muted">Available credits</div>
+  </div>
+
+  <div class="card">
+    <h3>Unlocks (24h)</h3>
+    <canvas id="unlockChart"></canvas>
+  </div>
+
+</div>
+
+<br/>
+
+<div class="card">
+  <h3>Recent Activity</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>User</th>
+        <th>Action</th>
+        <th>Entity</th>
+      </tr>
+    </thead>
+    <tbody id="activity"></tbody>
+  </table>
+</div>
+
+</main>
+</div>
+
+<script>
+const API_BASE = "https://my-finaccess-production.up.railway.app";
+let CTX={orgId:null};
+
+function auth(){
+  const t=localStorage.getItem("auth_token");
+  if(!t) location.href="./login.html";
+  return t;
+}
+
+async function init(){
+  const token=auth();
+
+  // org context
+  const orgRes=await fetch(`${API_BASE}/orgs/me`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(!orgRes.ok) return;
+  const org=await orgRes.json();
+  CTX.orgId=org.id;
+
+  orgName.textContent=org.name || "Organisation";
+  orgStatus.textContent=org.verified_status==="approved"?"Verified":"Unverified";
+  orgStatus.className=
+    "badge "+(org.verified_status==="approved"?"ok":"warn");
+
+  credits.textContent=org.credit_balance || 0;
+
+  loadActivity();
+  renderChart();
+}
+
+async function loadActivity(){
+  const token=auth();
+  const r=await fetch(`${API_BASE}/admin/audit?limit=6`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(!r.ok) return;
+  const rows=await r.json();
+
+  activity.innerHTML="";
+  rows.forEach(a=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${new Date(a.created_at).toLocaleString()}</td>
+      <td>${a.actor_user_id||"system"}</td>
+      <td>${a.action}</td>
+      <td>${a.entity}</td>`;
+    activity.appendChild(tr);
+  });
+}
+
+function renderChart(){
+  const ctx=document.getElementById("unlockChart").getContext("2d");
+
+  // simple synthetic bars (no library)
+  const data=[3,6,2,8,4,5,7];
+  const w=ctx.canvas.width;
+  const h=ctx.canvas.height;
+  ctx.clearRect(0,0,w,h);
+
+  const max=Math.max(...data);
+  const bw=w/data.length;
+
+  data.forEach((v,i)=>{
+    const bh=(v/max)*(h-20);
+    ctx.fillStyle="#2563eb";
+    ctx.fillRect(i*bw+10,h-bh,bw-20,bh);
+  });
+}
+</script>
+
+</body>
+</html>

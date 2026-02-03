@@ -1,0 +1,37 @@
+/* ===============================
+   AUTH PAGES (login.html)
+=============================== */
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.brand-panel {
+  background: #020617;
+  color: #e5e7eb;
+  padding: 80px;
+}
+
+.content-panel {
+  background: white;
+  padding: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; }
+  .brand-panel { display: none; }
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Credits & Subscription | FinAccess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--dark:#020617;
+  --ink:#0f172a;--muted:#64748b;--brand:#2563eb;
+  --border:#e2e8f0;--radius:14px;
+  --shadow:0 20px 40px rgba(2,6,23,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--ink)
+}
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{
+  background:var(--dark);color:#e5e7eb;padding:32px
+}
+aside h1{margin:0 0 6px}
+aside p{font-size:13px;color:#cbd5f5}
+nav a{
+  display:block;color:#cbd5f5;text-decoration:none;
+  padding:10px;border-radius:10px
+}
+nav a:hover{background:#1e293b}
+main{padding:48px}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:28px;
+  max-width:900px
+}
+h2{margin-top:0}
+.balance{
+  font-size:36px;
+  font-weight:700;
+  margin:10px 0;
+}
+.muted{color:var(--muted)}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
+  margin-top:24px
+}
+.plan{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+}
+.plan h3{margin:0 0 6px}
+.plan p{font-size:13px;color:var(--muted)}
+button{
+  margin-top:12px;
+  background:var(--brand);
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  width:100%
+}
+.status{font-size:13px;margin-top:10px}
+.note{
+  margin-top:20px;
+  font-size:12px;
+  color:var(--muted)
+}
+@media(max-width:900px){
+  .page{grid-template-columns:1fr}
+  aside{display:none}
+}
+</style>
+</head>
+
+<body onload="init()">
+
+<div class="page">
+
+<aside>
+  <h1>Credits</h1>
+  <p>Usage-based access</p>
+  <nav>
+    <a href="./dashboard.html">Dashboard</a>
+    <a href="./npa-search.html">NPA Marketplace</a>
+    <a href="./admin-dashboard.html">Admin</a>
+  </nav>
+</aside>
+
+<main>
+<div class="card">
+  <h2>Credit Balance</h2>
+
+  <div class="balance" id="balance">—</div>
+  <div class="muted">Credits available for unlocks</div>
+
+  <div class="grid">
+    <div class="plan">
+      <h3>10 Credits</h3>
+      <p>₹1000 • Small usage pack</p>
+      <button onclick="buyCredits(10)">Buy 10</button>
+    </div>
+    <div class="plan">
+      <h3>25 Credits</h3>
+      <p>₹2250 • Most popular</p>
+      <button onclick="buyCredits(25)">Buy 25</button>
+    </div>
+    <div class="plan">
+      <h3>50 Credits</h3>
+      <p>₹4000 • Power users</p>
+      <button onclick="buyCredits(50)">Buy 50</button>
+    </div>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <div class="note">
+    Credits expire automatically. Each unlock is logged and auditable.
+    Payments are processed via RBI-compliant gateways.
+  </div>
+</div>
+</main>
+
+</div>
+
+<script>
+const API_BASE = "https://my-finaccess-production.up.railway.app";
+let APP_CONTEXT={orgId:null};
+
+function requireAuth(){
+  const t=localStorage.getItem("auth_token");
+  if(!t){location.href="./login.html"}
+  return t;
+}
+
+async function init(){
+  const token=requireAuth();
+
+  // resolve org context (existing backend)
+  const r=await fetch(`${API_BASE}/orgs/me`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(r.ok){
+    const o=await r.json();
+    APP_CONTEXT.orgId=o.id;
+    loadBalance();
+  }
+}
+
+async function loadBalance(){
+  // lightweight read via admin/org (already exists)
+  const token=requireAuth();
+  const r=await fetch(`${API_BASE}/admin/org/${APP_CONTEXT.orgId}`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(r.ok){
+    const o=await r.json();
+    balance.textContent=o.credit_balance;
+  }
+}
+
+function setStatus(msg,type){
+  status.textContent=msg||"";
+  status.style.color=
+    type==="error"?"#dc2626":
+    type==="success"?"#16a34a":"#0284c7";
+}
+
+async function buyCredits(credits){
+  const token=requireAuth();
+  setStatus("Creating order…");
+
+  const amount=credits*100; // INR example
+
+  const orderRes=await fetch(`${API_BASE}/subscriptions/order`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({amount})
+  });
+
+  if(!orderRes.ok){
+    setStatus("Order creation failed","error");
+    return;
+  }
+
+  const order=await orderRes.json();
+
+  // placeholder capture (existing backend supports)
+  const capRes=await fetch(`${API_BASE}/subscriptions/capture`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({
+      orderId:order.id,
+      credits,
+      orgId:APP_CONTEXT.orgId
+    })
+  });
+
+  if(!capRes.ok){
+    setStatus("Payment failed","error");
+    return;
+  }
+
+  setStatus("Credits added","success");
+  loadBalance();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* ===============================
+   LANDING ONLY (index.html)
+=============================== */
+
+.lp-navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 48px;
+  border-bottom: 1px solid var(--border);
+  background: white;
+}
+
+.lp-logo {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.lp-hero {
+  padding: 110px 24px;
+  text-align: center;
+  background: linear-gradient(180deg,#f8fafc,#eef2ff);
+}
+
+.lp-section {
+  padding: 96px 48px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.lp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 32px;
+}
+
+.lp-card {
+  background: white;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.lp-dark {
+  background: #0f172a;
+  color: #e5e7eb;
+}

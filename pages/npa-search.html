@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NPA Search | FinAccess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root{
+  --bg:#f8fafc;--card:#fff;--dark:#020617;
+  --ink:#0f172a;--muted:#64748b;--brand:#2563eb;
+  --border:#e2e8f0;--radius:14px;--shadow:0 20px 40px rgba(2,6,23,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--ink)
+}
+.page{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+aside{background:var(--dark);color:#e5e7eb;padding:32px}
+aside h1{margin:0 0 6px}
+aside p{font-size:13px;color:#cbd5f5}
+nav a{display:block;color:#cbd5f5;text-decoration:none;padding:10px;border-radius:10px}
+nav a:hover{background:#1e293b}
+main{padding:48px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;max-width:900px}
+label{font-size:13px;color:var(--muted)}
+select,input{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:14px}
+button{background:var(--brand);color:#fff;border:none;padding:12px;border-radius:10px;font-weight:600;cursor:pointer}
+.grid{margin-top:20px}
+.result{border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:12px}
+.status{font-size:13px;margin-top:8px}
+@media(max-width:900px){.page{grid-template-columns:1fr}aside{display:none}}
+</style>
+</head>
+
+<body onload="requireAuth()">
+
+<div class="page">
+<aside>
+  <h1>NPA Search</h1>
+  <p>India-wide marketplace</p>
+  <nav>
+    <a href="./dashboard.html">Dashboard</a>
+    <a href="./npa-search.html">Search NPAs</a>
+    <a href="./profile.html">Profile</a>
+  </nav>
+</aside>
+
+<main>
+<div class="card">
+<h2>Search NPAs</h2>
+
+<label>State</label>
+<select id="state"></select>
+
+<label>City</label>
+<select id="city"></select>
+
+<label>Min DPD</label>
+<input id="minDpd" type="number" placeholder="e.g. 90" />
+
+<button onclick="searchNPA()">Search</button>
+
+<div id="status" class="status"></div>
+<div id="results" class="grid"></div>
+</div>
+</main>
+</div>
+
+<script>
+const API_BASE = "https://my-finaccess-production.up.railway.app";
+const STATES={
+  Maharashtra:["Mumbai","Pune","Nagpur"],
+  Karnataka:["Bengaluru","Mysuru"],
+  Delhi:["New Delhi"],
+  TamilNadu:["Chennai","Coimbatore"]
+};
+
+function requireAuth(){
+  if(!localStorage.getItem("auth_token")){
+    location.href="./login.html";
+  }
+}
+
+function loadStates(){
+  const s=document.getElementById("state");
+  s.innerHTML="<option value=''>Select</option>";
+  Object.keys(STATES).forEach(st=>{
+    s.innerHTML+=`<option>${st}</option>`;
+  });
+  s.onchange=()=>loadCities(s.value);
+}
+function loadCities(state){
+  const c=document.getElementById("city");
+  c.innerHTML="<option value=''>Select</option>";
+  (STATES[state]||[]).forEach(ct=>{
+    c.innerHTML+=`<option>${ct}</option>`;
+  });
+}
+async function searchNPA(){
+  const token=localStorage.getItem("auth_token");
+  const qs=new URLSearchParams({
+    state:state.value,
+    city:city.value,
+    minDpd:minDpd.value
+  });
+  status.textContent="Searching…";
+  const r=await fetch(`${API_BASE}/npa/search?${qs}`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  if(!r.ok){status.textContent="Search failed";return}
+  const data=await r.json();
+  results.innerHTML="";
+  data.forEach(n=>{
+    const d=document.createElement("div");
+    d.className="result";
+    d.innerHTML=`<strong>${n.product_type}</strong><br>
+    DPD: ${n.dpd_days}<br>
+    ₹${n.total_outstanding}<br>
+    <a href="./npa-view.html?id=${n.id}">View</a>`;
+    results.appendChild(d);
+  });
+  status.textContent=`${data.length} results`;
+}
+loadStates();
+</script>
+
+</body>
+</html>
